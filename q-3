@@ -1,0 +1,85 @@
+import java.util.*;
+import java.io.*;
+import java.util.stream.*;
+
+public class Result {
+    
+    static String getKey(int a, int b) {
+        if (a < b) {
+            return a + " " + b;    
+        }
+        return b + " " + a;
+    }
+    
+    public static int maxShared(int friendNodes, List<Integer> friendsFrom, List<Integer> friendsTo, List<Integer> friendsWeight) {
+        Map<String, Integer> map = new HashMap<>();
+        
+        for (int i = 0; i < friendsFrom.size(); i++) {
+            String key = getKey(friendsFrom.get(i), friendsTo.get(i));
+            if (map.containsKey(key)) {
+                map.put(key, map.get(key) + 1);
+            } else {
+                map.put(key, 1);
+            }
+        }
+        
+        int max = 0;
+        int maxPair = 0;
+        for (String s: map.keySet()) {
+            String[] str = s.split(" ");
+            if (map.get(s) > max) {
+                max = map.get(s);
+                maxPair = Integer.parseInt(str[0]) * Integer.parseInt(str[1]);
+            } else if (map.get(s) == max) {
+                int uMax = Integer.parseInt(str[0]) * Integer.parseInt(str[1]);
+                if (maxPair < uMax) {
+                    maxPair = uMax;
+                }
+            }
+        }
+        return maxPair;
+    }
+    
+    public static void main(String[] args) throws IOException {
+        // BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        // BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        // String[] friendsNodesEdges = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+        // int friendsNodes = Integer.parseInt(friendsNodesEdges[0]);
+        // int friendsEdges = Integer.parseInt(friendsNodesEdges[1]);
+
+        List<Integer> friendsFrom = new ArrayList<>();
+        friendsFrom.add(1);
+        friendsFrom.add(1);
+        friendsFrom.add(2);
+        friendsFrom.add(2);
+        friendsFrom.add(2);
+        
+        List<Integer> friendsTo = new ArrayList<>();
+        friendsTo.add();
+        friendsTo.add();
+        friendsTo.add();
+        List<Integer> friendsWeight = new ArrayList<>();
+
+        // IntStream.range(0, friendsEdges).forEach(i -> {
+        //     try {
+        //         String[] friendsFromToWeight = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+        //         friendsFrom.add(Integer.parseInt(friendsFromToWeight[0]));
+        //         friendsTo.add(Integer.parseInt(friendsFromToWeight[1]));
+        //         friendsWeight.add(Integer.parseInt(friendsFromToWeight[2]));
+        //     } catch (IOException ex) {
+        //         throw new RuntimeException(ex);
+        //     }
+        // });
+
+        int result = Result.maxShared(friendsNodes, friendsFrom, friendsTo, friendsWeight);
+
+        // bufferedWriter.write(String.valueOf(result));
+        // bufferedWriter.newLine();
+
+        // bufferedReader.close();
+        // bufferedWriter.close();
+    }
+}
