@@ -1,0 +1,95 @@
+public class MyClass {
+    
+    public int[] startsAndBars(String s, int []  startindex, int [] endindex)
+    {
+        int n=startindex.length;
+        
+        int len=s.length();
+        
+        int [] count=new int [len];
+        int [] next=new int [len];
+        int [] prev=new int [len];
+        
+        if(s.charAt(0)=='|')
+        {
+            count[0]=1;
+            prev[0]=0;
+        }
+        else{
+            prev[0]=-1;
+            
+        }
+        
+        for(int i=1;i<len;i++)
+        {
+            if(s.charAt(i)=='|')
+            {
+                count[i]=count[i-1]+1;
+                prev[i]=i;
+                
+            }
+            else
+            {
+                count[i]=count[i-1];
+                prev[i]=prev[i-1];
+            }
+        }
+        if(s.charAt(len-1)=='|')
+        {
+            next[len-1]=len-1;
+        }
+        else{
+            next[len-1]=-1;
+            
+        }
+       // System.out.println(n+" "+len);
+        for(int i=len-2;i>=0;i--)
+        {
+            if(s.charAt(i)=='|')
+            {
+                next[i]=i;
+                
+            }
+            else
+            {
+                next[i]=next[i+1];
+            }
+        }
+        
+        int [] ans=new int [n];
+        
+        for(int i=0;i<n;i++)
+        {
+            int a=startindex[i]-1;
+            int b=endindex[i]-1;
+            
+            if(a>=b)
+            {
+                ans[i]=0;continue;
+            }
+            else
+            {
+                int c=next[a];
+                int d=prev[b];
+                if(c>=d || c==-1 || d==-1)
+                {
+                    ans[i]=0;continue;
+                }
+                int cnt=count[d]-count[c];
+                
+                ans[i]=d-c-cnt;
+                
+            }
+            
+        }
+        return ans;
+    }
+    
+    public static void main(String args[]) {
+      int x=10;
+      int y=25;
+      int z=x+y;
+
+      System.out.println("Sum of x+y = " + z);
+    }
+}
