@@ -1,0 +1,76 @@
+import java.util.*;
+
+
+public class Solution {
+      private int n;
+      int[] add;
+      Stack<Integer> stack;
+  
+      public Solution(int maxSize) {
+          n = maxSize;
+          add = new int[n];
+          stack = new Stack<>();
+     }
+ 
+     public void push(int x) {
+         
+         if (stack.size() < n) {
+             stack.push(x);
+         }
+         
+         System.out.println(x);
+     }
+ 
+     public int pop() {         
+        int i = stack.size() - 1;
+        if (i < 0) {
+            System.out.println("Empty");
+             return -1;
+         }
+         if (i > 0) {
+             add[i - 1] += add[i];
+         }
+        
+        int res = stack.pop() + add[i];
+        
+        if (stack.size() < 1) {
+            System.out.println("Empty");    
+         } else {
+            System.out.println(stack.peek() + add[i-1]);    
+         }
+         add[i] = 0;
+         
+         return res;
+     }
+ 
+     public void increment(int k, int val) {
+         int i = Math.min(k, stack.size());
+         if (i > 0) {
+             add[i - 1] += val;
+         }
+         int ptr = stack.size() == k ? stack.peek() + val : stack.peek();
+         System.out.println(ptr);
+     }
+    
+    public static void superStack(String operations[]) {
+        Solution stack = new Solution(operations.length);
+        for (int i = 0; i < operations.length; i++) {
+            String[] str = operations[i].split(" ");
+        
+             if (str[0].equals("push")) {
+                stack.push(Integer.parseInt(str[1]));
+            } else if(str[0].equals("pop")){
+                stack.pop();
+            }
+            else if(str[0].equals("inc")){
+                stack.increment(Integer.parseInt(str[1]), Integer.parseInt(str[2]));
+            }
+        }
+    }
+    
+    public static void main(String[] args) {
+        superStack(new String[] {
+            "push 2", "push 3", "push 5", "inc 3 2", "pop", "push 1", "inc 2 1", "pop", "pop", "pop"
+        });
+    }
+}
