@@ -1,0 +1,32 @@
+public class MyClass {
+    
+    static long countOfSubstringWithKOnes(String s, int K)
+    {
+        int N = s.length();
+        int res = 0;
+        int countOfOne = 0;
+    
+        int min = Integer.parseInt(s, 2);
+        
+        for (int i = 0; i < N; i++) {
+            for (int j = i + 1; j < N; j++) {
+                if(s.charAt(j)=='1')countOfOne++;
+                if(countOfOne==K){
+                    int decimal = Integer.parseInt(s.substring(i, j), 2);  
+                    if (min > decimal) {
+                        min = decimal;
+                    }
+                    countOfOne = 0;
+                    break;
+                }
+            }
+        }
+        
+        return min;
+    }
+    
+    
+    public static void main(String args[]) {
+      System.out.println(countOfSubstringWithKOnes("0101101", 3));
+    }
+}
