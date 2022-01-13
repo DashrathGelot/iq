@@ -1,0 +1,57 @@
+// Java Program to Convert a Roman
+// Number to Decimal using Hashmap
+import java.io.*;
+import java.util.*;
+
+public class Result implements Comparator<String>
+{
+    int romanToDec(String roman)
+	{
+		HashMap<Character, Integer> map = new HashMap<>();
+		map.put('I', 1);
+		map.put('V', 5);
+		map.put('X', 10);
+		map.put('L', 50);
+		map.put('C', 100);
+		map.put('D', 500);
+		map.put('M', 1000);
+
+		int dec = 0;
+		for (int i = 0; i < roman.length(); i++) 
+		{
+			if (i > 0 && map.get(roman.charAt(i)) > map.get(roman.charAt(i - 1))) 
+			{
+				dec += map.get(roman.charAt(i)) - 2 * map.get(roman.charAt(i - 1));
+			} 
+			else 
+			{
+				dec += map.get(roman.charAt(i));
+			}
+		}
+		return dec;
+	}
+    
+    public int compare(String f, String l)
+    {
+        String[] firstA = f.split("\\s+");
+        String[] lastA = l.split("\\s+");
+        
+        return (firstA[0].compareTo(lastA[0])) == 0 ? romanToDec(firstA[1]) - romanToDec(lastA[1])  : firstA[0].compareTo(lastA[0]);
+    }
+    
+    public static List<String> sortRoman(List<String> names) {
+         Collections.sort(names, new Result());
+         return names;
+    }
+}
+
+    public static void main(String[] args)
+	{
+		String s;
+
+		List<String> l = new ArrayList<String>();
+		l.add("Louis IX");
+		l.add("Louis VIII");
+		sortRoman(l);
+		System.out.println(l);
+	}
